@@ -1,9 +1,6 @@
-package model;
+package com.helpdesk.helpdesk_api.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,9 +19,19 @@ public class Chamado {
 
     private String titulo;
     private String descricao;
-    private String prioridade;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private String prioridade;  //BAIXA, MEDIA ou ALTA
+
+    @Enumerated(EnumType.STRING)
+    private String status;  //ABERTO, EM_ANDAMENTO ou FECHADO
+
     private LocalDateTime dataCriado;
     private LocalDateTime dataFechado;
 
+    @ManyToOne
+    private Usuario solicitante;
+
+    @ManyToOne
+    private Usuario tecnico;
 }
