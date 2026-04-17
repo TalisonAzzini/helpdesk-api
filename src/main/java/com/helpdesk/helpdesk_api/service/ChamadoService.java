@@ -32,19 +32,19 @@ public class ChamadoService {
         return chamadoRepository.save(novoChamado);
     }
 
-    public Chamado atualizarChamado(Long id, Chamado dadosAtualizados, Long tecnicoId) {
+    public Chamado atualizarChamado(Long id, Chamado dadosChamado, Long tecnicoId) {
         Usuario tecnico = usuarioRepository.findById(tecnicoId)
-                .orElseThrow(() -> new RuntimeException("Técnico não encontrado"));
+                .orElseThrow(() -> new RuntimeException("Técnico não encontrado."));
         validarTecnico(tecnico);
 
         Chamado chamado = buscarChamadoPorId(id);
-        chamado.setTitulo(dadosAtualizados.getTitulo());
-        chamado.setDescricao(dadosAtualizados.getDescricao());
-        chamado.setPrioridade(dadosAtualizados.getPrioridade());
-        chamado.setStatus(dadosAtualizados.getStatus());
+        chamado.setTitulo(dadosChamado.getTitulo());
+        chamado.setDescricao(dadosChamado.getDescricao());
+        chamado.setPrioridade(dadosChamado.getPrioridade());
+        chamado.setStatus(dadosChamado.getStatus());
         chamado.setTecnico(tecnico);
 
-        if (dadosAtualizados.getStatus().equals(Status.FECHADO)) {
+        if (dadosChamado.getStatus().equals(Status.FECHADO)) {
             chamado.setDataFechado(LocalDateTime.now());
         }
 
@@ -57,7 +57,7 @@ public class ChamadoService {
 
     public Chamado buscarChamadoPorId(Long id) {
         return chamadoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Chamado não encontrado"));
+                .orElseThrow(() -> new RuntimeException("Chamado não encontrado."));
     }
 
     public void deletarChamado(Long id) {
@@ -66,7 +66,7 @@ public class ChamadoService {
 
     private void validarTecnico(Usuario usuario) {
         if (!usuario.getCargo().equals(Cargo.TECNICO)) {
-            throw new RuntimeException("Usuário não tem cargo de técnico");
+            throw new RuntimeException("Usuário não tem cargo de técnico.");
         }
     }
 }
