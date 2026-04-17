@@ -1,5 +1,5 @@
 package com.helpdesk.helpdesk_api.enums;
 
-public class Prioridade {
+public enum Prioridade {
     BAIXA, MEDIA, ALTA
 }

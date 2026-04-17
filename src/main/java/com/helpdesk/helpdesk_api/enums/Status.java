@@ -1,5 +1,5 @@
 package com.helpdesk.helpdesk_api.enums;
 
-public class Status {
+public enum Status {
     ABERTO, EM_ANDAMENTO, FECHADO
 }
