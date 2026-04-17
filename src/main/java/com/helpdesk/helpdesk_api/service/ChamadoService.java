@@ -5,6 +5,7 @@ import com.helpdesk.helpdesk_api.model.*;
 import com.helpdesk.helpdesk_api.enums.Status;
 import com.helpdesk.helpdesk_api.enums.Prioridade;
 import com.helpdesk.helpdesk_api.repository.ChamadoRepository;
+import com.helpdesk.helpdesk_api.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
@@ -13,8 +14,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ChamadoService {
-
     private final ChamadoRepository chamadoRepository;
+    private final UsuarioRepository usuarioRepository;
 
     public Chamado abrirChamado(String titulo, String descricao, Prioridade prioridade, Usuario tecnico, Usuario solicitante) {
         validarTecnico(tecnico);
@@ -31,7 +32,9 @@ public class ChamadoService {
         return chamadoRepository.save(novoChamado);
     }
 
-    public Chamado atualizarChamado(Long id, Chamado dadosAtualizados, Usuario tecnico) {
+    public Chamado atualizarChamado(Long id, Chamado dadosAtualizados, Long tecnicoId) {
+        Usuario tecnico = usuarioRepository.findById(tecnicoId)
+                .orElseThrow(() -> new RuntimeException("Técnico não encontrado"));
         validarTecnico(tecnico);
 
         Chamado chamado = buscarChamadoPorId(id);
@@ -54,7 +57,7 @@ public class ChamadoService {
 
     public Chamado buscarChamadoPorId(Long id) {
         return chamadoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Chamado não encontrado com id: " + id));
+                .orElseThrow(() -> new RuntimeException("Chamado não encontrado"));
     }
 
     public void deletarChamado(Long id) {
