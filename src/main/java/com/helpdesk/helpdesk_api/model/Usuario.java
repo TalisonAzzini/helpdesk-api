@@ -1,5 +1,6 @@
 package com.helpdesk.helpdesk_api.model;
 
+import com.helpdesk.helpdesk_api.enums.Cargo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,5 +19,5 @@ public class Usuario {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private String cargo;
+    private Cargo cargo;
 }

@@ -1,5 +1,7 @@
 package com.helpdesk.helpdesk_api.model;
 
+import com.helpdesk.helpdesk_api.enums.Prioridade;
+import com.helpdesk.helpdesk_api.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,15 +18,14 @@ public class Chamado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     private String titulo;
     private String descricao;
 
     @Enumerated(EnumType.STRING)
-    private String prioridade;  //BAIXA, MEDIA ou ALTA
+    private Prioridade prioridade;  //BAIXA, MEDIA ou ALTA
 
     @Enumerated(EnumType.STRING)
-    private String status;  //ABERTO, EM_ANDAMENTO ou FECHADO
+    private Status status;  //ABERTO, EM_ANDAMENTO ou FECHADO
 
     private LocalDateTime dataCriado;
     private LocalDateTime dataFechado;
