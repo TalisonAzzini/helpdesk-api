@@ -1,6 +1,6 @@
 # 🎫 Helpdesk API
 
-REST-API para gerenciamento de chamados, desenvolvida com Java e Spring Boot.
+REST API para gerenciamento de chamados, desenvolvida com Java e Spring Boot.
 Projeto inspirado na rotina de suporte técnico do meu estágio, onde sistemas similares são utilizados diariamente.
 
 ## 🛠️ Tecnologias
