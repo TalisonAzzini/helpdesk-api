@@ -54,7 +54,7 @@ cd helpdesk-api
 A aplicação sobe em `http://localhost:8080`
 
 ### Console do Banco H2
-Acesse `http://localhost:8080/h2-console` com as credenciais:
+Acesse `http://localhost:8080//h2-db` com as credenciais:
 - **JDBC URL:** `jdbc:h2:mem:helpdesk`
 - **User:** `sa`
 - **Password:** *(vazio)*
