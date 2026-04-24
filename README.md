@@ -4,24 +4,20 @@ REST API para gerenciamento de chamados de suporte técnico.
 
 O projeto simula um ambiente real de helpdesk, incluindo regras de negócio, gestão de usuários e análise de dados dos atendimentos, permitindo visualizar padrões e desempenho da equipe técnica.
 
----
-
 ## 📸 Screenshots
 
 ### API
 <p>
-    <img src="docs/images/get-usuarios.png" width="400">
-    <img src="docs/images/get-chamados.png" width="400">
+    <img src="docs/images/get-usuarios.png" width="45%">
+    <img src="docs/images/get-chamados.png" width="45%">
 </p>
 
 ### Análise de Dados
 <p>
-    <img src="docs/images/chamados_por_status.png" width="400">
-    <img src="docs/images/chamados_por_prioridade.png" width="400">
-    <img src="docs/images/chamados_por_tecnico.png" width="400">
+    <img src="docs/images/chamados_por_status.png" width="30%">
+    <img src="docs/images/chamados_por_prioridade.png" width="30%">
+    <img src="docs/images/chamados_por_tecnico.png" width="30%">
 </p>
-
----
 
 ## 🛠️ Tecnologias
 
@@ -32,8 +28,6 @@ O projeto simula um ambiente real de helpdesk, incluindo regras de negócio, ges
 - **Lombok**
 - **Maven**
 - **Python 3.13** *(análise de dados)*
-
----
 
 ## 📁 Estrutura do Projeto
 ```
@@ -59,8 +53,6 @@ analytics/
 ├── analise.py
 └── *.png
 ```
-
----
 
 ## ⚙️ Como Rodar o Projeto
 
