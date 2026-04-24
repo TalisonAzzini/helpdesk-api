@@ -1,6 +1,6 @@
 # 🎫 Helpdesk API
 
-REST API para gerenciamento de chamados de suporte técnico.
+API REST para gerenciamento de chamados de suporte técnico.
 
 O projeto simula um ambiente real de helpdesk, incluindo regras de negócio, gestão de usuários e análise de dados dos atendimentos, permitindo visualizar padrões e desempenho da equipe técnica.
 
