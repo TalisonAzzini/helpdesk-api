@@ -3,6 +3,17 @@
 REST API para gerenciamento de chamados, desenvolvida com Java e Spring Boot.
 Projeto inspirado na rotina de suporte técnico do meu estágio, onde sistemas similares são utilizados diariamente.
 
+## 📸 Screenshots
+
+### API
+![GET Usuários](docs/images/get-usuarios.png)
+![GET Chamados](docs/images/get-chamados.png)
+
+### Análise de Dados
+![Chamados por Status](docs/images/chamados_por_status.png)
+![Chamados por Prioridade](docs/images/chamados_por_prioridade.png)
+![Chamados por Técnico](docs/images/chamados_por_tecnico.png)
+
 ## 🛠️ Tecnologias
 
 - **Java 21**
