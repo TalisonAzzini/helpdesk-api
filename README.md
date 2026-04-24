@@ -3,15 +3,26 @@
 REST API para gerenciamento de chamados, desenvolvida com Java e Spring Boot.
 Projeto inspirado na rotina de suporte técnico do meu estágio, onde sistemas similares são utilizados diariamente.
 
+## 📸 Screenshots
+
+### API
+![GET Usuários](docs/images/get-usuarios.png)
+![GET Chamados](docs/images/get-chamados.png)
+
+### Análise de Dados
+![Chamados por Status](docs/images/chamados_por_status.png)
+![Chamados por Prioridade](docs/images/chamados_por_prioridade.png)
+![Chamados por Técnico](docs/images/chamados_por_tecnico.png)
+
 ## 🛠️ Tecnologias
 
-- **Java 17**
+- **Java 21**
 - **Spring Boot 3.5.1**
 - **Spring Data JPA**
 - **H2 Database**
 - **Lombok**
 - **Maven**
-- **Python** *(análise de dados — implementação futura)*
+- **Python 3.13** *(análise de dados)*
 
 ## 📁 Estrutura do Projeto
 ```
@@ -32,12 +43,18 @@ src/main/java/com/helpdesk/helpdesk_api/
     ├── Cargo.java
     ├── Prioridade.java
     └── Status.java
+analytics/
+├── analise.py
+├── chamados_por_status.png
+├── chamados_por_prioridade.png
+└── chamados_por_tecnico.png
 ```
 ## ⚙️ Como Rodar o Projeto
 
 ### Pré-requisitos
-- Java 17+
+- Java 21+
 - Maven
+- Python 3.13+
 
 ### Passos
 ```bash
@@ -58,6 +75,19 @@ Acesse `http://localhost:8080//h2-db` com as credenciais:
 - **JDBC URL:** `jdbc:h2:mem:helpdesk`
 - **User:** `sa`
 - **Password:** *(vazio)*
+
+## 📊 Análise de Dados
+Com a API rodando, execute o script Python para gerar os Gráficos de análise:
+
+```bash
+cd analytics
+python analise.py
+```
+
+Gráficos gerados:
+- Chamados por Status
+- Chamados por Prioridade
+- Chamados por Técnico
 
 ## 📋 Endpoints
 
@@ -110,7 +140,7 @@ POST /chamados
 `BAIXA` `MEDIA` `ALTA`
 
 ### Status disponíveis
-`ABERTO` `EM_ATENDIMENTO` `FECHADO`
+`ABERTO` `EM_ANDAMENTO` `FECHADO`
 
 ## 🔒 Regras de Negócio
 
@@ -122,7 +152,7 @@ POST /chamados
 ## 🚀 Futuras Implementações
 
 - [ ] Autenticação e autorização com Spring Security + JWT
-- [ ] Análise de dados com Python
+- [x] Análise de dados com Python
 - [ ] Paginação nas listagens
 - [ ] Filtros por status e prioridade
 
