@@ -1,18 +1,27 @@
 # 🎫 Helpdesk API
 
-REST API para gerenciamento de chamados, desenvolvida com Java e Spring Boot.
-Projeto inspirado na rotina de suporte técnico do meu estágio, onde sistemas similares são utilizados diariamente.
+REST API para gerenciamento de chamados de suporte técnico.
+
+O projeto simula um ambiente real de helpdesk, incluindo regras de negócio, gestão de usuários e análise de dados dos atendimentos, permitindo visualizar padrões e desempenho da equipe técnica.
+
+---
 
 ## 📸 Screenshots
 
 ### API
-![GET Usuários](docs/images/get-usuarios.png)
-![GET Chamados](docs/images/get-chamados.png)
+<p>
+    <img src="docs/images/get-usuarios.png" width="400">
+    <img src="docs/images/get-chamados.png" width="400">
+</p>
 
 ### Análise de Dados
-![Chamados por Status](docs/images/chamados_por_status.png)
-![Chamados por Prioridade](docs/images/chamados_por_prioridade.png)
-![Chamados por Técnico](docs/images/chamados_por_tecnico.png)
+<p>
+    <img src="docs/images/chamados_por_status.png" width="400">
+    <img src="docs/images/chamados_por_prioridade.png" width="400">
+    <img src="docs/images/chamados_por_tecnico.png" width="400">
+</p>
+
+---
 
 ## 🛠️ Tecnologias
 
@@ -23,6 +32,8 @@ Projeto inspirado na rotina de suporte técnico do meu estágio, onde sistemas s
 - **Lombok**
 - **Maven**
 - **Python 3.13** *(análise de dados)*
+
+---
 
 ## 📁 Estrutura do Projeto
 ```
@@ -43,12 +54,14 @@ src/main/java/com/helpdesk/helpdesk_api/
     ├── Cargo.java
     ├── Prioridade.java
     └── Status.java
+    
 analytics/
 ├── analise.py
-├── chamados_por_status.png
-├── chamados_por_prioridade.png
-└── chamados_por_tecnico.png
+└── *.png
 ```
+
+---
+
 ## ⚙️ Como Rodar o Projeto
 
 ### Pré-requisitos
@@ -68,26 +81,27 @@ cd helpdesk-api
 ./mvnw spring-boot:run
 ```
 
-A aplicação sobe em `http://localhost:8080`
+A aplicação sobe em http://localhost:8080
 
-### Console do Banco H2
-Acesse `http://localhost:8080/h2-console` com as credenciais:
+### 🗄 Console do Banco H2
+Acesse http://localhost:8080/h2-db
 - **JDBC URL:** `jdbc:h2:mem:helpdesk`
 - **User:** `sa`
 - **Password:** *(vazio)*
 
 ## 📊 Análise de Dados
-Com a API rodando, execute o script Python para gerar os Gráficos de análise:
+Com a API rodando, execute o script:
 
 ```bash
 cd analytics
 python analise.py
 ```
 
-Gráficos gerados:
-- Chamados por Status
-- Chamados por Prioridade
-- Chamados por Técnico
+A análise permite identificar:
+
+- Volume de chamados por status
+- Distribuição de prioridades
+- Carga de trabalho por técnico
 
 ## 📋 Endpoints
 
@@ -144,7 +158,7 @@ POST /chamados
 
 ## 🔒 Regras de Negócio
 
-- Somente usuários com cargo `TECNICO` podem ser atribuídos como técnicos em chamados
+- Apenas usuários com cargo `TECNICO` podem ser atribuídos como técnicos em chamados
 - O status inicial de todo chamado é definido como `ABERTO` automaticamente
 - A `dataCriado` é preenchida automaticamente na criação
 - A `dataFechado` é preenchida automaticamente quando o status é alterado para `FECHADO`
