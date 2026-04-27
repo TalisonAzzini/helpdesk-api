@@ -20,4 +20,6 @@ public class Usuario {
 
     @Enumerated(EnumType.STRING)
     private Cargo cargo;
+
+    private String senha;
 }
