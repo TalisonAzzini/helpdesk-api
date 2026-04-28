@@ -6,7 +6,6 @@ import com.helpdesk.helpdesk_api.model.Usuario;
 import com.helpdesk.helpdesk_api.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 
 @Service
@@ -23,7 +22,6 @@ public class JwtService {
         return JWT.create()
                 .withSubject(usuario.getEmail())
                 .withClaim("cargo", usuario.getCargo().toString())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 3600000))
                 .sign(algorithm);
 
     }
