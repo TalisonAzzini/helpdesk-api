@@ -14,8 +14,6 @@ public class JwtService {
     @Value("${api.security.token.secret}")
     private String chaveSecreta;
 
-    private final UsuarioRepository usuarioRepository;
-
     public String gerarToken(Usuario usuario) {
         Algorithm algorithm = Algorithm.HMAC256(chaveSecreta);
 
