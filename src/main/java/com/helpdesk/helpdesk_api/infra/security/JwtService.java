@@ -3,7 +3,6 @@ package com.helpdesk.helpdesk_api.infra.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.helpdesk.helpdesk_api.model.Usuario;
-import com.helpdesk.helpdesk_api.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +18,7 @@ public class JwtService {
 
         return JWT.create()
                 .withSubject(usuario.getEmail())
+                .withIssuer("helpdesk-api")
                 .withClaim("cargo", usuario.getCargo().toString())
                 .sign(algorithm);
 

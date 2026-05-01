@@ -1,6 +1,6 @@
 package com.helpdesk.helpdesk_api.controller;
 
-import com.helpdesk.helpdesk_api.model.Login;
+import com.helpdesk.helpdesk_api.model.LoginResponse;
 import com.helpdesk.helpdesk_api.model.Usuario;
 import com.helpdesk.helpdesk_api.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Login dadosLogin) {
+    public ResponseEntity<String> login(@RequestBody LoginResponse dadosLogin) {
         return ResponseEntity.status(201).body(authService.autenticarLogin(dadosLogin.email(), dadosLogin.senha()));
     }
 
