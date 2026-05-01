@@ -1,12 +1,13 @@
-package com.helpdesk.helpdesk_api.service;
+package com.helpdesk.helpdesk_api.services;
 
 import com.helpdesk.helpdesk_api.enums.Cargo;
 import com.helpdesk.helpdesk_api.model.*;
 import com.helpdesk.helpdesk_api.enums.Status;
 import com.helpdesk.helpdesk_api.enums.Prioridade;
-import com.helpdesk.helpdesk_api.repository.ChamadoRepository;
-import com.helpdesk.helpdesk_api.repository.UsuarioRepository;
+import com.helpdesk.helpdesk_api.repositories.ChamadoRepository;
+import com.helpdesk.helpdesk_api.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -66,7 +67,7 @@ public class ChamadoService {
 
     private void validarTecnico(Usuario usuario) {
         if (usuario.getCargo() != Cargo.TECNICO) {
-            throw new RuntimeException("Usuário não tem cargo de técnico.");
+            throw new BadCredentialsException("Usuário não tem cargo de técnico.");
         }
     }
 }

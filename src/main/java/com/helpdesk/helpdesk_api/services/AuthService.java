@@ -1,9 +1,9 @@
-package com.helpdesk.helpdesk_api.service;
+package com.helpdesk.helpdesk_api.services;
 
-import com.helpdesk.helpdesk_api.infra.exception.UsuarioDuplicadoException;
+import com.helpdesk.helpdesk_api.infra.exceptions.UsuarioDuplicadoException;
 import com.helpdesk.helpdesk_api.infra.security.JwtService;
 import com.helpdesk.helpdesk_api.model.Usuario;
-import com.helpdesk.helpdesk_api.repository.UsuarioRepository;
+import com.helpdesk.helpdesk_api.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

@@ -1,3 +1,3 @@
-package com.helpdesk.helpdesk_api.model;
+package com.helpdesk.helpdesk_api.dtos;
 
 public record LoginRequest(String email, String senha) {}
