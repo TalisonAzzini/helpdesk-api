@@ -11,10 +11,6 @@ import java.util.List;
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
 
-    public Usuario cadastrarUsuario(Usuario usuario) {
-        return usuarioRepository.save(usuario);
-    }
-
     public Usuario atualizarUsuario(Long id, Usuario dadosUsuario) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));

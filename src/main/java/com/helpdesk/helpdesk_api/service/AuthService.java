@@ -14,7 +14,7 @@ public class AuthService {
     private final UsuarioRepository usuarioRepository;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public String login(String email, String senha) {
+    public String autenticarLogin(String email, String senha) {
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
@@ -25,9 +25,9 @@ public class AuthService {
         return jwtService.gerarToken(usuario);
     }
 
-    public void cadastrarUsuario(Usuario usuario) {
+    public Usuario cadastrarUsuario(Usuario usuario) {
         usuario.setSenha(encoder.encode(usuario.getSenha()));
 
-        usuarioRepository.save(usuario);
+        return usuarioRepository.save(usuario);
     }
 }

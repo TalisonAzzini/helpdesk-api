@@ -13,11 +13,6 @@ import java.util.List;
 public class UsuarioController {
     private final UsuarioService usuarioService;
 
-    @PostMapping
-    public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario) {
-        return ResponseEntity.status(201).body(usuarioService.cadastrarUsuario(usuario));
-    }
-
     @GetMapping
     public ResponseEntity<List<Usuario>> listarUsuarios() {
         return ResponseEntity.ok(usuarioService.listarUsuarios());
