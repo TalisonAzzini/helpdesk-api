@@ -21,7 +21,7 @@ public class JwtService {
 
         return JWT.create()
                 .withSubject(usuario.getEmail())
-                .withClaim("cargo", usuario.getCargo().toString())
+                .withClaim("cargo", usuario.getCargo().getRole())
                 .withIssuer("helpdesk-api")
                 .withExpiresAt(Instant.now().plus(Duration.ofHours(8)))
                 .sign(algorithm);
