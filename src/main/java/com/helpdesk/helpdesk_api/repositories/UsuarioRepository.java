@@ -1,4 +1,4 @@
-package com.helpdesk.helpdesk_api.repository;
+package com.helpdesk.helpdesk_api.repositories;
 
 import com.helpdesk.helpdesk_api.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;

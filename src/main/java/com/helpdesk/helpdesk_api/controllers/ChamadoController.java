@@ -1,7 +1,7 @@
-package com.helpdesk.helpdesk_api.controller;
+package com.helpdesk.helpdesk_api.controllers;
 
 import com.helpdesk.helpdesk_api.model.Chamado;
-import com.helpdesk.helpdesk_api.service.ChamadoService;
+import com.helpdesk.helpdesk_api.services.ChamadoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

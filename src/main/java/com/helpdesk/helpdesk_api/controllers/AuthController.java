@@ -1,9 +1,9 @@
-package com.helpdesk.helpdesk_api.controller;
+package com.helpdesk.helpdesk_api.controllers;
 
-import com.helpdesk.helpdesk_api.model.LoginRequest;
-import com.helpdesk.helpdesk_api.model.LoginResponse;
+import com.helpdesk.helpdesk_api.dtos.LoginRequest;
+import com.helpdesk.helpdesk_api.dtos.LoginResponse;
 import com.helpdesk.helpdesk_api.model.Usuario;
-import com.helpdesk.helpdesk_api.service.AuthService;
+import com.helpdesk.helpdesk_api.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

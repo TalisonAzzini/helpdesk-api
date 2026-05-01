@@ -1,7 +1,7 @@
-package com.helpdesk.helpdesk_api.service;
+package com.helpdesk.helpdesk_api.services;
 
 import com.helpdesk.helpdesk_api.model.Usuario;
-import com.helpdesk.helpdesk_api.repository.UsuarioRepository;
+import com.helpdesk.helpdesk_api.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;

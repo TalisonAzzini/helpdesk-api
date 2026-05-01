@@ -1,4 +1,4 @@
-package com.helpdesk.helpdesk_api.infra.exception;
+package com.helpdesk.helpdesk_api.infra.exceptions;
 
 public class UsuarioDuplicadoException extends RuntimeException{
 
