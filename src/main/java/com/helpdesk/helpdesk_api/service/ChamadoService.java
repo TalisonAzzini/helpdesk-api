@@ -65,7 +65,7 @@ public class ChamadoService {
     }
 
     private void validarTecnico(Usuario usuario) {
-        if (usuario.getCargo() == null || !usuario.getCargo().equals(Cargo.TECNICO)) {
+        if (usuario.getCargo() != Cargo.TECNICO) {
             throw new RuntimeException("Usuário não tem cargo de técnico.");
         }
     }
