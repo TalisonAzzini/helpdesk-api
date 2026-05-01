@@ -21,6 +21,7 @@ public class JwtService {
 
         return JWT.create()
                 .withSubject(usuario.getEmail())
+                .withIssuer("helpdesk-api")
                 .withClaim("cargo", usuario.getCargo().toString())
                 .sign(algorithm);
 
