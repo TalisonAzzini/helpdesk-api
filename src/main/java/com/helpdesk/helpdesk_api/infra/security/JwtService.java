@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.time.Duration;
+import java.time.Instant;
+
 @Service
 @RequiredArgsConstructor
 public class JwtService {
@@ -18,8 +21,9 @@ public class JwtService {
 
         return JWT.create()
                 .withSubject(usuario.getEmail())
-                .withIssuer("helpdesk-api")
                 .withClaim("cargo", usuario.getCargo().toString())
+                .withIssuer("helpdesk-api")
+                .withExpiresAt(Instant.now().plus(Duration.ofHours(8)))
                 .sign(algorithm);
 
     }

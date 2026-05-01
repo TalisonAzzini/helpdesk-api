@@ -1,5 +1,6 @@
 package com.helpdesk.helpdesk_api.controller;
 
+import com.helpdesk.helpdesk_api.model.LoginRequest;
 import com.helpdesk.helpdesk_api.model.LoginResponse;
 import com.helpdesk.helpdesk_api.model.Usuario;
 import com.helpdesk.helpdesk_api.service.AuthService;
@@ -17,8 +18,9 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginResponse dadosLogin) {
-        return ResponseEntity.status(201).body(authService.autenticarLogin(dadosLogin.email(), dadosLogin.senha()));
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest dadosLogin) {
+        String token = authService.autenticarLogin(dadosLogin.email(), dadosLogin.senha());
+        return ResponseEntity.ok(new LoginResponse(token));
     }
 
     @PostMapping("/cadastrar")
