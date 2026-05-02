@@ -4,6 +4,7 @@ import com.helpdesk.helpdesk_api.dtos.LoginRequest;
 import com.helpdesk.helpdesk_api.dtos.LoginResponse;
 import com.helpdesk.helpdesk_api.model.Usuario;
 import com.helpdesk.helpdesk_api.services.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest dadosLogin) {
+    public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest dadosLogin) {
         String token = authService.autenticarLogin(dadosLogin.email(), dadosLogin.senha());
         return ResponseEntity.ok(new LoginResponse(token));
     }
