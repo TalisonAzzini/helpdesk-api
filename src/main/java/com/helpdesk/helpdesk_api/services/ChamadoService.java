@@ -6,6 +6,7 @@ import com.helpdesk.helpdesk_api.enums.Status;
 import com.helpdesk.helpdesk_api.enums.Prioridade;
 import com.helpdesk.helpdesk_api.repositories.ChamadoRepository;
 import com.helpdesk.helpdesk_api.repositories.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class ChamadoService {
 
     public Chamado atualizarChamado(Long id, Chamado dadosChamado, Long tecnicoId) {
         Usuario tecnico = usuarioRepository.findById(tecnicoId)
-                .orElseThrow(() -> new RuntimeException("Técnico não encontrado."));
+                .orElseThrow(() -> new EntityNotFoundException("Técnico não encontrado."));
         validarTecnico(tecnico);
 
         Chamado chamado = buscarChamadoPorId(id);
@@ -58,7 +59,7 @@ public class ChamadoService {
 
     public Chamado buscarChamadoPorId(Long id) {
         return chamadoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Chamado não encontrado."));
+                .orElseThrow(() -> new EntityNotFoundException("Chamado não encontrado."));
     }
 
     public void deletarChamado(Long id) {
