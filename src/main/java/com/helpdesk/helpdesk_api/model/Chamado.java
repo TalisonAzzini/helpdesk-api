@@ -3,6 +3,8 @@ package com.helpdesk.helpdesk_api.model;
 import com.helpdesk.helpdesk_api.enums.Prioridade;
 import com.helpdesk.helpdesk_api.enums.Status;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,9 +20,13 @@ public class Chamado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Título obrigatório")
     private String titulo;
+
+    @NotBlank(message = "Descrição obrigatória")
     private String descricao;
 
+    @NotNull(message = "Prioridade obrigatória")
     @Enumerated(EnumType.STRING)
     private Prioridade prioridade;  //BAIXA, MEDIA ou ALTA
 

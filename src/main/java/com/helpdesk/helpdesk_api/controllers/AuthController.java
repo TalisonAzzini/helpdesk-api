@@ -25,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> cadastrar(@RequestBody @Valid Usuario usuario) {
         return ResponseEntity.status(201).body(authService.cadastrarUsuario(usuario));
     }
 }
