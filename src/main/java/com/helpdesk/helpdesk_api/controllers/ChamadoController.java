@@ -2,6 +2,7 @@ package com.helpdesk.helpdesk_api.controllers;
 
 import com.helpdesk.helpdesk_api.model.Chamado;
 import com.helpdesk.helpdesk_api.services.ChamadoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ public class ChamadoController {
     private final ChamadoService chamadoService;
 
     @PostMapping
-    public ResponseEntity<Chamado> abrirChamado(@RequestBody Chamado chamado) {
+    public ResponseEntity<Chamado> abrirChamado(@RequestBody @Valid Chamado chamado) {
         Chamado novoChamado = chamadoService.abrirChamado(
                 chamado.getTitulo(),
                 chamado.getDescricao(),
