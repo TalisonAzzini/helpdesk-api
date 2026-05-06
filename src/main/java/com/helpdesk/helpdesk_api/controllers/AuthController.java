@@ -1,5 +1,6 @@
 package com.helpdesk.helpdesk_api.controllers;
 
+import com.helpdesk.helpdesk_api.dtos.CadastroRequest;
 import com.helpdesk.helpdesk_api.dtos.LoginRequest;
 import com.helpdesk.helpdesk_api.dtos.LoginResponse;
 import com.helpdesk.helpdesk_api.model.Usuario;
@@ -25,7 +26,13 @@ public class AuthController {
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<Usuario> cadastrar(@RequestBody @Valid Usuario usuario) {
+    public ResponseEntity<Usuario> cadastrar(@RequestBody @Valid CadastroRequest dadosCadastro) {
+        Usuario usuario = new Usuario();
+        usuario.setNome(dadosCadastro.nome());
+        usuario.setEmail(dadosCadastro.email());
+        usuario.setSenha(dadosCadastro.senha());
+        usuario.setCargo(dadosCadastro.cargo());
+
         return ResponseEntity.status(201).body(authService.cadastrarUsuario(usuario));
     }
 }
