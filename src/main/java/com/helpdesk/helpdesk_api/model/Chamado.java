@@ -20,13 +20,9 @@ public class Chamado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Título obrigatório")
     private String titulo;
-
-    @NotBlank(message = "Descrição obrigatória")
     private String descricao;
 
-    @NotNull(message = "Prioridade obrigatória")
     @Enumerated(EnumType.STRING)
     private Prioridade prioridade;  //BAIXA, MEDIA ou ALTA
 
