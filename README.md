@@ -1,8 +1,16 @@
 # 🎫 Helpdesk API
 
-API REST para gerenciamento de chamados de suporte técnico.
+API REST para gerenciamento de chamados de suporte técnico, desenvolvida com Java e Spring Boot.
 
-O projeto simula um ambiente real de helpdesk, incluindo regras de negócio, gestão de usuários e análise de dados dos atendimentos, permitindo visualizar padrões e desempenho da equipe técnica.
+O projeto foi desenvolvido com base em um cenário real de helpdesk, simulando fluxos de atendimento, atribuição de técnicos e controle de status, além de incluir análise de dados para extração de insights operacionais.
+
+## ✨ Diferenciais
+
+- Autenticação segura com Spring Security + JWT
+- Arquitetura em camadas (Controller, Service, Repository)
+- Regras de negócio aplicadas (ex: restrição de técnicos)
+- Integração com análise de dados em Python
+- Simulação de ambiente real de suporte técnico
 
 ## 📸 Screenshots
 
@@ -23,32 +31,43 @@ O projeto simula um ambiente real de helpdesk, incluindo regras de negócio, ges
 
 - **Java 21**
 - **Spring Boot 3.5.1**
+- **Spring Security + JWT** *(autenticação e autorização)*
 - **Spring Data JPA**
-- **H2 Database**
+- **H2 Database** *(ambiente de desenvolvimento)*
 - **Lombok**
 - **Maven**
 - **Python 3.13** *(análise de dados)*
+- **Pandas** *(manipulação de dados)*
+- **Matplotlib** *(visualização de dados)*
+
+## 🧠 Arquitetura
+
+O projeto segue o padrão de arquitetura em camadas:
+
+- **Controller** — recebe as requisições HTTP
+- **Service** — contém as regras de negócio
+- **Repository** — responsável pelo acesso ao banco de dados
+- **Model** — define as entidades da aplicação
+- **DTOs** — separa os dados de entrada/saída das entidades
+- **Infra** — segurança, tratamento de exceções e inicialização da aplicação
+
+Essa separação garante melhor organização, manutenção e escalabilidade do sistema.
 
 ## 📁 Estrutura do Projeto
-```
+
+```text
 src/main/java/com/helpdesk/helpdesk_api/
-├── controller/
-│   ├── ChamadoController.java
-│   └── UsuarioController.java
-├── service/
-│   ├── ChamadoService.java
-│   └── UsuarioService.java
-├── repository/
-│   ├── ChamadoRepository.java
-│   └── UsuarioRepository.java
-├── model/
-│   ├── Chamado.java
-│   └── Usuario.java
-└── enums/
-    ├── Cargo.java
-    ├── Prioridade.java
-    └── Status.java
-    
+├── controllers/    # Camada de entrada (REST endpoints)
+├── services/       # Regras de negócio
+├── repositories/   # Persistência de dados (JPA)
+├── models/         # Entidades do sistema
+├── dtos/           # Objetos de transferência de dados
+├── enums/          # Tipos fixos (status, prioridade, cargo)
+└── infra/
+    ├── security/   # Configurações de autenticação e autorização
+    ├── exceptions/ # Tratamento global de exceções
+    └── DataInitializer.java  # Inicialização de dados padrão
+
 analytics/
 ├── analise.py
 └── *.png
@@ -73,56 +92,89 @@ cd helpdesk-api
 ./mvnw spring-boot:run
 ```
 
-A aplicação sobe em http://localhost:8080
+A aplicação sobe em `http://localhost:8080`
 
 ### 🗄 Console do Banco H2
-Acesse http://localhost:8080/h2-db
+Acesse `http://localhost:8080/h2-db`
 - **JDBC URL:** `jdbc:h2:mem:helpdesk`
 - **User:** `sa`
 - **Password:** *(vazio)*
 
+### 🔑 Usuário padrão
+Ao iniciar a aplicação, um usuário ROOT é criado automaticamente:
+- **Email:** `root@helpdesk.com`
+- **Senha:** `root123`
+
+> ⚠️ Recomenda-se criar um usuário ADM e não utilizar o ROOT diretamente.
+
 ## 📊 Análise de Dados
-Com a API rodando, execute o script:
+
+Com a API rodando e chamados cadastrados, execute o script Python para gerar os gráficos:
 
 ```bash
 cd analytics
 python analise.py
 ```
 
-A análise permite identificar:
+A análise de dados permite extrair insights relevantes do sistema, como:
 
 - Volume de chamados por status
 - Distribuição de prioridades
 - Carga de trabalho por técnico
 
+Essas informações simulam indicadores utilizados em ambientes reais de suporte para tomada de decisão.
+
+| Gráfico | Tipo | O que mostra |
+|---|---|---|
+| Chamados por Status | Barras | Volume de chamados em cada etapa do atendimento |
+| Chamados por Prioridade | Pizza | Distribuição percentual das prioridades |
+| Chamados por Técnico | Barras | Carga de trabalho individual da equipe |
+
 ## 📋 Endpoints
 
+### Autenticação
+| Método | Rota | Descrição | Auth |
+|---|---|---|---|
+| POST | `/auth/login` | Realiza login e retorna token JWT | ❌ |
+| POST | `/auth/cadastrar` | Cadastra novo usuário | ✅ |
+
 ### Usuários
-| Método | Rota | Descrição |
-|---|---|---|
-| POST | `/usuarios` | Cadastra um novo usuário |
-| GET | `/usuarios` | Lista todos os usuários |
-| GET | `/usuarios/{id}` | Busca usuário por ID |
-| PUT | `/usuarios/{id}` | Atualiza um usuário |
-| DELETE | `/usuarios/{id}` | Remove um usuário |
+| Método | Rota | Descrição | Auth |
+|---|---|---|---|
+| GET | `/usuarios` | Lista todos os usuários | ✅ |
+| GET | `/usuarios/{id}` | Busca usuário por ID | ✅ |
+| PUT | `/usuarios/{id}` | Atualiza um usuário | ✅ |
+| DELETE | `/usuarios/{id}` | Remove um usuário | ✅ |
 
 ### Chamados
-| Método | Rota | Descrição |
-|---|---|---|
-| POST | `/chamados` | Abre um novo chamado |
-| GET | `/chamados` | Lista todos os chamados |
-| GET | `/chamados/{id}` | Busca chamado por ID |
-| PUT | `/chamados/{id}?tecnicoId={id}` | Atualiza um chamado |
-| DELETE | `/chamados/{id}` | Remove um chamado |
+| Método | Rota | Descrição | Auth |
+|---|---|---|---|
+| POST | `/chamados` | Abre um novo chamado | ✅ |
+| GET | `/chamados` | Lista todos os chamados | ✅ |
+| GET | `/chamados/{id}` | Busca chamado por ID | ✅ |
+| PUT | `/chamados/{id}?tecnicoId={id}` | Atualiza um chamado | ✅ |
+| DELETE | `/chamados/{id}` | Remove um chamado | ✅ |
+
+> ✅ Requer token JWT no cabeçalho: `Authorization: Bearer {token}`
 
 ## 📝 Exemplos de Requisição
 
+### Login
+```json
+POST /auth/login
+{
+    "email": "root@helpdesk.com",
+    "senha": "root123"
+}
+```
+
 ### Cadastrar Usuário
 ```json
-POST /usuarios
+POST /auth/cadastrar
 {
     "nome": "Nome do Tecnico",
-    "email": "tecnicon@email.com",
+    "email": "tecnico@email.com",
+    "senha": "senha123",
     "cargo": "TECNICO"
 }
 ```
@@ -134,13 +186,13 @@ POST /chamados
     "titulo": "Chamado de Suporte",
     "descricao": "Problema com o sistema",
     "prioridade": "MEDIA",
-    "tecnico": { "id": 1, "cargo": "TECNICO" },
+    "tecnico": { "id": 1 },
     "solicitante": { "id": 2 }
 }
 ```
 
 ### Cargos disponíveis
-`TECNICO` `ASSISTENTE` `ANALISTA` `SUPERVISOR` `GERENTE` `DIRETOR`
+`ROOT` `ADM` `TECNICO` `ASSISTENTE` `ANALISTA` `SUPERVISOR` `GERENTE` `DIRETOR`
 
 ### Prioridades disponíveis
 `BAIXA` `MEDIA` `ALTA`
@@ -150,15 +202,26 @@ POST /chamados
 
 ## 🔒 Regras de Negócio
 
-- Apenas usuários com cargo `TECNICO` podem ser atribuídos como técnicos em chamados
-- O status inicial de todo chamado é definido como `ABERTO` automaticamente
-- A `dataCriado` é preenchida automaticamente na criação
-- A `dataFechado` é preenchida automaticamente quando o status é alterado para `FECHADO`
+A API implementa regras que simulam um ambiente real de suporte técnico:
+
+- Chamados possuem status (`ABERTO`, `EM_ANDAMENTO`, `FECHADO`)
+- Chamados possuem níveis de prioridade (`BAIXA`, `MEDIA`, `ALTA`)
+- Apenas usuários com perfil de técnico podem atender chamados
+- Controle de acesso baseado em roles (`ROLE_ADM`, `ROLE_TECNICO`, etc.)
+- Autenticação com Spring Security + JWT — todas as rotas exceto `/auth/login` exigem token válido
+- Usuário ROOT criado automaticamente na inicialização da aplicação para acesso inicial
+- Email duplicado não é permitido no cadastro
+- Senha nunca retornada nas respostas da API
+- `dataCriado` preenchida automaticamente na criação do chamado
+- `dataFechado` preenchida automaticamente ao fechar o chamado
+
+Essas regras garantem maior realismo e aproximam o projeto de um cenário corporativo.
 
 ## 🚀 Futuras Implementações
 
-- [ ] Autenticação e autorização com Spring Security + JWT
 - [x] Análise de dados com Python
+- [x] Autenticação e autorização com Spring Security + JWT
+- [ ] Banco de dados persistente (PostgreSQL)
 - [ ] Paginação nas listagens
 - [ ] Filtros por status e prioridade
 
