@@ -2,7 +2,7 @@ package com.helpdesk.helpdesk_api.infra.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.helpdesk.helpdesk_api.model.Usuario;
+import com.helpdesk.helpdesk_api.models.Usuario;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,6 +1,6 @@
 package com.helpdesk.helpdesk_api.services;
 
-import com.helpdesk.helpdesk_api.model.Usuario;
+import com.helpdesk.helpdesk_api.models.Usuario;
 import com.helpdesk.helpdesk_api.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

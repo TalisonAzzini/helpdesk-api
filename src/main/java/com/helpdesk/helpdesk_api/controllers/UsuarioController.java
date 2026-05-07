@@ -1,6 +1,6 @@
 package com.helpdesk.helpdesk_api.controllers;
 
-import com.helpdesk.helpdesk_api.model.Usuario;
+import com.helpdesk.helpdesk_api.models.Usuario;
 import com.helpdesk.helpdesk_api.services.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package com.helpdesk.helpdesk_api.controllers;
 
-import com.helpdesk.helpdesk_api.model.Chamado;
+import com.helpdesk.helpdesk_api.models.Chamado;
 import com.helpdesk.helpdesk_api.services.ChamadoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
