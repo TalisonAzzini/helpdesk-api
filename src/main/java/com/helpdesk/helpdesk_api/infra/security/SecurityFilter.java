@@ -1,7 +1,6 @@
 package com.helpdesk.helpdesk_api.infra.security;
 
-import com.helpdesk.helpdesk_api.dtos.LoginRequest;
-import com.helpdesk.helpdesk_api.model.Usuario;
+import com.helpdesk.helpdesk_api.models.Usuario;
 import com.helpdesk.helpdesk_api.repositories.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -16,7 +15,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package com.helpdesk.helpdesk_api.model;
+package com.helpdesk.helpdesk_api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.helpdesk.helpdesk_api.enums.Cargo;

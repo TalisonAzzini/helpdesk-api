@@ -3,7 +3,7 @@ package com.helpdesk.helpdesk_api.controllers;
 import com.helpdesk.helpdesk_api.dtos.CadastroRequest;
 import com.helpdesk.helpdesk_api.dtos.LoginRequest;
 import com.helpdesk.helpdesk_api.dtos.LoginResponse;
-import com.helpdesk.helpdesk_api.model.Usuario;
+import com.helpdesk.helpdesk_api.models.Usuario;
 import com.helpdesk.helpdesk_api.services.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

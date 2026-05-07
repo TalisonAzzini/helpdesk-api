@@ -1,7 +1,7 @@
 package com.helpdesk.helpdesk_api.services;
 
 import com.helpdesk.helpdesk_api.enums.Cargo;
-import com.helpdesk.helpdesk_api.model.*;
+import com.helpdesk.helpdesk_api.models.*;
 import com.helpdesk.helpdesk_api.enums.Status;
 import com.helpdesk.helpdesk_api.enums.Prioridade;
 import com.helpdesk.helpdesk_api.repositories.ChamadoRepository;
@@ -19,7 +19,9 @@ public class ChamadoService {
     private final ChamadoRepository chamadoRepository;
     private final UsuarioRepository usuarioRepository;
 
-    public Chamado abrirChamado(String titulo, String descricao, Prioridade prioridade, Usuario tecnico, Usuario solicitante) {
+    public Chamado abrirChamado(String titulo, String descricao, Prioridade prioridade, Long tecnicoId, Usuario solicitante) {
+        Usuario tecnico = usuarioRepository.findById(tecnicoId)
+                        .orElseThrow(() -> new EntityNotFoundException("Técnico não encontrado"));
         validarTecnico(tecnico);
 
         Chamado novoChamado = new Chamado();
