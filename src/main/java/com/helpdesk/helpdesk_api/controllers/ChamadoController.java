@@ -20,7 +20,7 @@ public class ChamadoController {
                 chamado.getTitulo(),
                 chamado.getDescricao(),
                 chamado.getPrioridade(),
-                chamado.getTecnico(),
+                chamado.getTecnico().getId(),
                 chamado.getSolicitante()
         );
         return ResponseEntity.status(201).body(novoChamado);
