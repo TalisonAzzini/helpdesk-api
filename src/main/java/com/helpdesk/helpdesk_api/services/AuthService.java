@@ -5,7 +5,8 @@ import com.helpdesk.helpdesk_api.infra.security.JwtService;
 import com.helpdesk.helpdesk_api.models.Usuario;
 import com.helpdesk.helpdesk_api.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,14 +17,13 @@ public class AuthService {
     private final JwtService jwtService;
     private final UsuarioRepository usuarioRepository;
     private final BCryptPasswordEncoder encoder;
+    private final AuthenticationManager authenticationManager;
 
     public String autenticarLogin(String email, String senha) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, senha));
+
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
-
-        if (!encoder.matches(senha, usuario.getSenha())) {
-            throw new BadCredentialsException("Senha inválida!");
-        }
 
         return jwtService.gerarToken(usuario);
     }
