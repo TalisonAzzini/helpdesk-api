@@ -1,5 +1,6 @@
 package com.helpdesk.helpdesk_api.services;
 
+import com.helpdesk.helpdesk_api.dtos.UsuarioResponse;
 import com.helpdesk.helpdesk_api.models.Usuario;
 import com.helpdesk.helpdesk_api.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +24,27 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public Usuario buscarUsuarioPorId(Long id) {
-        return usuarioRepository.findById(id)
+    public UsuarioResponse buscarUsuarioPorId(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado."));
+
+        return new UsuarioResponse(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getEmail(),
+                usuario.getCargo()
+        );
     }
 
-    public List<Usuario> listarUsuarios() {
-        return usuarioRepository.findAll();
+    public List<UsuarioResponse> listarUsuarios() {
+        return usuarioRepository.findAll()
+                .stream()
+                .map(u -> new UsuarioResponse(
+                        u.getId(),
+                        u.getNome(),
+                        u.getEmail(),
+                        u.getCargo()))
+                .toList();
     }
 
     public void deletarUsuario(Long id) {
