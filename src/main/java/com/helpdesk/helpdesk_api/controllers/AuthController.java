@@ -9,6 +9,7 @@ import com.helpdesk.helpdesk_api.services.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ public class AuthController {
     }
 
     @PostMapping("/cadastrar")
+    @PreAuthorize("hasAnyRole('ROOT', 'ADMIN')")
     public ResponseEntity<UsuarioResponse> cadastrar(@RequestBody @Valid CadastroRequest dadosCadastro) {
         Usuario usuario = new Usuario();
         usuario.setNome(dadosCadastro.nome());

@@ -13,7 +13,7 @@ import java.util.List;
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
 
-    public Usuario atualizarUsuario(Long id, Usuario dadosUsuario) {
+    public UsuarioResponse atualizarUsuario(Long id, Usuario dadosUsuario) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado."));
 
@@ -21,7 +21,14 @@ public class UsuarioService {
         usuario.setEmail(dadosUsuario.getEmail());
         usuario.setCargo(dadosUsuario.getCargo());
 
-        return usuarioRepository.save(usuario);
+        Usuario usuarioSalvo = usuarioRepository.save(usuario);
+
+        return new UsuarioResponse(
+                usuarioSalvo.getId(),
+                usuarioSalvo.getNome(),
+                usuarioSalvo.getEmail(),
+                usuarioSalvo.getCargo()
+        );
     }
 
     public UsuarioResponse buscarUsuarioPorId(Long id) {
