@@ -10,7 +10,7 @@ public enum Cargo {
     SUPERVISOR("ROLE_SUPERVISOR"),
     GERENTE("ROLE_GERENTE"),
     DIRETOR("ROLE_DIRETOR"),
-    ADM("ROLE_ADM"),
+    ADMIN("ROLE_ADMIN"),
     ROOT("ROLE_ROOT");
 
     private final String role;

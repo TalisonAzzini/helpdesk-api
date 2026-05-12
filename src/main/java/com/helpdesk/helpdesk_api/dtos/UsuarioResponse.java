@@ -7,4 +7,4 @@ public record UsuarioResponse (
         String nome,
         String email,
         Cargo cargo
-){}
+) {}
