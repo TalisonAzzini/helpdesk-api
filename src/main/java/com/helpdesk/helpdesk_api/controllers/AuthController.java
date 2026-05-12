@@ -29,7 +29,7 @@ public class AuthController {
 
     @PostMapping("/cadastrar")
     @PreAuthorize("hasAnyRole('ROOT', 'ADMIN')")
-    public ResponseEntity<UsuarioResponse> cadastrar(@RequestBody @Valid CadastroRequest dadosCadastro) {
+    public ResponseEntity<UsuarioResponse> cadastrarUsuario(@RequestBody @Valid CadastroRequest dadosCadastro) {
         Usuario usuario = new Usuario();
         usuario.setNome(dadosCadastro.nome());
         usuario.setEmail(dadosCadastro.email());
