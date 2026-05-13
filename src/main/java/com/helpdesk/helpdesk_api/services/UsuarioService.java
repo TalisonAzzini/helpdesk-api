@@ -1,9 +1,11 @@
 package com.helpdesk.helpdesk_api.services;
 
 import com.helpdesk.helpdesk_api.dtos.UsuarioResponse;
+import com.helpdesk.helpdesk_api.enums.Cargo;
 import com.helpdesk.helpdesk_api.models.Usuario;
 import com.helpdesk.helpdesk_api.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -56,5 +58,11 @@ public class UsuarioService {
 
     public void deletarUsuario(Long id) {
         usuarioRepository.deleteById(id);
+    }
+
+    public void validarTecnico(Usuario usuario) {
+        if (usuario.getCargo() != Cargo.TECNICO) {
+            throw new BadCredentialsException("Usuário não tem cargo de técnico.");
+        }
     }
 }
