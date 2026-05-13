@@ -1,5 +1,6 @@
 package com.helpdesk.helpdesk_api.controllers;
 
+import com.helpdesk.helpdesk_api.dtos.ChamadoResponse;
 import com.helpdesk.helpdesk_api.models.Chamado;
 import com.helpdesk.helpdesk_api.services.ChamadoService;
 import jakarta.validation.Valid;
@@ -17,32 +18,32 @@ public class ChamadoController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ROOT', 'ADMIN', 'GERENTE', 'SUPERVISOR', 'TECNICO')")
-    public ResponseEntity<Chamado> abrirChamado(@RequestBody @Valid Chamado chamado) {
-        Chamado novoChamado = chamadoService.abrirChamado(
+    public ResponseEntity<ChamadoResponse> abrirChamado(@RequestBody @Valid Chamado chamado) {
+        ChamadoResponse novoChamado = chamadoService.abrirChamado(
                 chamado.getTitulo(),
                 chamado.getDescricao(),
                 chamado.getPrioridade(),
                 chamado.getTecnico().getId(),
-                chamado.getSolicitante()
+                chamado.getSolicitante().getId()
         );
         return ResponseEntity.status(201).body(novoChamado);
     }
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ROOT', 'ADMIN', 'GERENTE', 'SUPERVISOR', 'TECNICO')")
-    public ResponseEntity<List<Chamado>> listarChamados() {
+    public ResponseEntity<List<ChamadoResponse>> listarChamados() {
         return ResponseEntity.ok(chamadoService.listarChamados());
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROOT', 'ADMIN', 'GERENTE', 'SUPERVISOR', 'TECNICO')")
-    public ResponseEntity<Chamado> buscarChamadoPorId(@PathVariable Long id) {
+    public ResponseEntity<ChamadoResponse> buscarChamadoPorId(@PathVariable Long id) {
         return ResponseEntity.ok(chamadoService.buscarChamadoPorId(id));
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROOT', 'ADMIN', 'GERENTE', 'SUPERVISOR', 'TECNICO')")
-    public ResponseEntity<Chamado> atualizarChamado(@PathVariable Long id, @RequestBody Chamado dadosAtualizados, @RequestParam Long tecnicoId) {
+    public ResponseEntity<ChamadoResponse> atualizarChamado(@PathVariable Long id, @RequestBody Chamado dadosAtualizados, @RequestParam Long tecnicoId) {
         return  ResponseEntity.ok(chamadoService.atualizarChamado(id, dadosAtualizados, tecnicoId));
     }
 

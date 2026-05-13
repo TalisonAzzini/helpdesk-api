@@ -1,6 +1,7 @@
 package com.helpdesk.helpdesk_api.services;
 
-import com.helpdesk.helpdesk_api.enums.Cargo;
+import com.helpdesk.helpdesk_api.dtos.ChamadoResponse;
+import com.helpdesk.helpdesk_api.dtos.UsuarioResponse;
 import com.helpdesk.helpdesk_api.models.*;
 import com.helpdesk.helpdesk_api.enums.Status;
 import com.helpdesk.helpdesk_api.enums.Prioridade;
@@ -8,7 +9,6 @@ import com.helpdesk.helpdesk_api.repositories.ChamadoRepository;
 import com.helpdesk.helpdesk_api.repositories.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,11 +18,15 @@ import java.util.List;
 public class ChamadoService {
     private final ChamadoRepository chamadoRepository;
     private final UsuarioRepository usuarioRepository;
+    private final UsuarioService usuarioService;
 
-    public Chamado abrirChamado(String titulo, String descricao, Prioridade prioridade, Long tecnicoId, Usuario solicitante) {
+    public ChamadoResponse abrirChamado(String titulo, String descricao, Prioridade prioridade, Long tecnicoId, Long solicitanteId) {
         Usuario tecnico = usuarioRepository.findById(tecnicoId)
                         .orElseThrow(() -> new EntityNotFoundException("Técnico não encontrado"));
-        validarTecnico(tecnico);
+        usuarioService.validarTecnico(tecnico);
+
+        Usuario solicitante = usuarioRepository.findById(solicitanteId)
+                .orElseThrow(() -> new EntityNotFoundException("Solicitante não encontrado"));
 
         Chamado novoChamado = new Chamado();
         novoChamado.setTitulo(titulo);
@@ -33,15 +37,15 @@ public class ChamadoService {
         novoChamado.setTecnico(tecnico);
         novoChamado.setSolicitante(solicitante);
 
-        return chamadoRepository.save(novoChamado);
+        return toResponse(chamadoRepository.save(novoChamado));
     }
 
-    public Chamado atualizarChamado(Long id, Chamado dadosChamado, Long tecnicoId) {
+    public ChamadoResponse atualizarChamado(Long id, Chamado dadosChamado, Long tecnicoId) {
         Usuario tecnico = usuarioRepository.findById(tecnicoId)
                 .orElseThrow(() -> new EntityNotFoundException("Técnico não encontrado."));
-        validarTecnico(tecnico);
+        usuarioService.validarTecnico(tecnico);
 
-        Chamado chamado = buscarChamadoPorId(id);
+        Chamado chamado = buscarChamadoEntidade(id);
         chamado.setTitulo(dadosChamado.getTitulo());
         chamado.setDescricao(dadosChamado.getDescricao());
         chamado.setPrioridade(dadosChamado.getPrioridade());
@@ -52,25 +56,50 @@ public class ChamadoService {
             chamado.setDataFechado(LocalDateTime.now());
         }
 
-        return chamadoRepository.save(chamado);
+        return toResponse(chamadoRepository.save(chamado));
     }
 
-    public List<Chamado> listarChamados() {
-        return chamadoRepository.findAll();
+    public List<ChamadoResponse> listarChamados() {
+        return chamadoRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .toList();
     }
 
-    public Chamado buscarChamadoPorId(Long id) {
+    private Chamado buscarChamadoEntidade(Long id) {
         return chamadoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Chamado não encontrado."));
+    }
+    public ChamadoResponse buscarChamadoPorId(Long id) {
+        return toResponse(chamadoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Chamado não encontrado.")));
     }
 
     public void deletarChamado(Long id) {
         chamadoRepository.deleteById(id);
     }
 
-    private void validarTecnico(Usuario usuario) {
-        if (usuario.getCargo() != Cargo.TECNICO) {
-            throw new BadCredentialsException("Usuário não tem cargo de técnico.");
-        }
+    private ChamadoResponse toResponse(Chamado chamado) {
+        return new ChamadoResponse(
+                chamado.getId(),
+                chamado.getTitulo(),
+                chamado.getDescricao(),
+                chamado.getPrioridade(),
+                chamado.getStatus(),
+                chamado.getDataCriado(),
+                chamado.getDataFechado(),
+                new UsuarioResponse(
+                        chamado.getSolicitante().getId(),
+                        chamado.getSolicitante().getNome(),
+                        chamado.getSolicitante().getEmail(),
+                        chamado.getSolicitante().getCargo()
+                ),
+                new UsuarioResponse(
+                        chamado.getTecnico().getId(),
+                        chamado.getTecnico().getNome(),
+                        chamado.getTecnico().getEmail(),
+                        chamado.getTecnico().getCargo()
+                )
+        );
     }
 }
