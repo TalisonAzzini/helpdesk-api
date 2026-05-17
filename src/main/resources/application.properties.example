@@ -1,0 +1,15 @@
+spring.application.name=helpdesk-api
+
+# PostgreSQL
+spring.datasource.url=jdbc:postgresql://localhost:5432/helpdesk
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.username=postgres
+spring.datasource.password=sua_senha
+
+# JPA
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+# JWT
+api.security.token.secret=sua_chave
