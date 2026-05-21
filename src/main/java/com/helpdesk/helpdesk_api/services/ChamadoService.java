@@ -1,14 +1,14 @@
 package com.helpdesk.helpdesk_api.services;
 
+import com.helpdesk.helpdesk_api.dtos.ChamadoRequest;
 import com.helpdesk.helpdesk_api.dtos.ChamadoResponse;
-import com.helpdesk.helpdesk_api.dtos.UsuarioResponse;
 import com.helpdesk.helpdesk_api.models.*;
 import com.helpdesk.helpdesk_api.enums.Status;
-import com.helpdesk.helpdesk_api.enums.Prioridade;
 import com.helpdesk.helpdesk_api.repositories.ChamadoRepository;
 import com.helpdesk.helpdesk_api.repositories.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,49 +20,32 @@ public class ChamadoService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioService usuarioService;
 
-    public ChamadoResponse abrirChamado(String titulo, String descricao, Prioridade prioridade, Long tecnicoId, Long solicitanteId) {
-        Usuario tecnico = usuarioRepository.findById(tecnicoId)
-                        .orElseThrow(() -> new EntityNotFoundException("Técnico não encontrado"));
-        usuarioService.validarTecnico(tecnico);
+    public ChamadoResponse abrirChamado(ChamadoRequest dadosChamado) {
+        Usuario solicitante = usuarioRepository.findById(dadosChamado.solicitanteId())
+                .orElseThrow(() -> new UsernameNotFoundException("Solicitante não encontrado"));
 
-        Usuario solicitante = usuarioRepository.findById(solicitanteId)
-                .orElseThrow(() -> new EntityNotFoundException("Solicitante não encontrado"));
-
-        Chamado novoChamado = new Chamado();
-        novoChamado.setTitulo(titulo);
-        novoChamado.setDescricao(descricao);
-        novoChamado.setPrioridade(prioridade);
-        novoChamado.setStatus(Status.ABERTO);
-        novoChamado.setDataCriado(LocalDateTime.now());
-        novoChamado.setTecnico(tecnico);
-        novoChamado.setSolicitante(solicitante);
-
-        return toResponse(chamadoRepository.save(novoChamado));
-    }
-
-    public ChamadoResponse atualizarChamado(Long id, Chamado dadosChamado, Long tecnicoId) {
-        Usuario tecnico = usuarioRepository.findById(tecnicoId)
+        Usuario tecnico = usuarioRepository.findById(dadosChamado.tecnicoId())
                 .orElseThrow(() -> new EntityNotFoundException("Técnico não encontrado."));
         usuarioService.validarTecnico(tecnico);
 
-        Chamado chamado = buscarChamadoEntidade(id);
-        chamado.setTitulo(dadosChamado.getTitulo());
-        chamado.setDescricao(dadosChamado.getDescricao());
-        chamado.setPrioridade(dadosChamado.getPrioridade());
-        chamado.setStatus(dadosChamado.getStatus());
+        Chamado chamado = new Chamado();
+        chamado.setTitulo(dadosChamado.titulo());
+        chamado.setDescricao(dadosChamado.descricao());
+        chamado.setPrioridade(dadosChamado.prioridade());
+        chamado.setStatus(Status.ABERTO);
+        chamado.setDataCriado(LocalDateTime.now());
+        chamado.setSolicitante(solicitante);
         chamado.setTecnico(tecnico);
 
-        if (dadosChamado.getStatus().equals(Status.FECHADO)) {
-            chamado.setDataFechado(LocalDateTime.now());
-        }
+        Chamado chamadoSalvo = chamadoRepository.save(chamado);
 
-        return toResponse(chamadoRepository.save(chamado));
+        return ChamadoResponse.from(chamadoSalvo);
     }
 
     public List<ChamadoResponse> listarChamados() {
         return chamadoRepository.findAll()
                 .stream()
-                .map(this::toResponse)
+                .map(ChamadoResponse::from)
                 .toList();
     }
 
@@ -70,36 +53,35 @@ public class ChamadoService {
         return chamadoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Chamado não encontrado."));
     }
+
     public ChamadoResponse buscarChamadoPorId(Long id) {
-        return toResponse(chamadoRepository.findById(id)
+        return ChamadoResponse.from(chamadoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Chamado não encontrado.")));
+    }
+
+    public ChamadoResponse atualizarChamado(Long id, ChamadoRequest dadosChamado) {
+        Usuario tecnico = usuarioRepository.findById(dadosChamado.tecnicoId())
+                .orElseThrow(() -> new EntityNotFoundException("Técnico não encontrado."));
+        usuarioService.validarTecnico(tecnico);
+
+        Chamado chamado = buscarChamadoEntidade(id);
+        chamado.setTitulo(dadosChamado.titulo());
+        chamado.setDescricao(dadosChamado.descricao());
+        chamado.setPrioridade(dadosChamado.prioridade());
+        chamado.setStatus(dadosChamado.status());
+        chamado.setTecnico(tecnico);
+
+        if (dadosChamado.status() == Status.FECHADO) {
+            chamado.setDataFechado(LocalDateTime.now());
+        }
+
+        Chamado chamadoAtualizado = chamadoRepository.save(chamado);
+
+        return ChamadoResponse.from(chamadoAtualizado);
     }
 
     public void deletarChamado(Long id) {
         chamadoRepository.deleteById(id);
     }
 
-    private ChamadoResponse toResponse(Chamado chamado) {
-        return new ChamadoResponse(
-                chamado.getId(),
-                chamado.getTitulo(),
-                chamado.getDescricao(),
-                chamado.getPrioridade(),
-                chamado.getStatus(),
-                chamado.getDataCriado(),
-                chamado.getDataFechado(),
-                new UsuarioResponse(
-                        chamado.getSolicitante().getId(),
-                        chamado.getSolicitante().getNome(),
-                        chamado.getSolicitante().getEmail(),
-                        chamado.getSolicitante().getCargo()
-                ),
-                new UsuarioResponse(
-                        chamado.getTecnico().getId(),
-                        chamado.getTecnico().getNome(),
-                        chamado.getTecnico().getEmail(),
-                        chamado.getTecnico().getCargo()
-                )
-        );
-    }
 }
