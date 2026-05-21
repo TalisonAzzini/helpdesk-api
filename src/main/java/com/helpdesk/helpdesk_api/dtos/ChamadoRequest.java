@@ -6,9 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record ChamadoRequest(
-        @NotNull
-        Long id,
-
         @NotBlank(message = "Título obrigatório")
         String titulo,
 
