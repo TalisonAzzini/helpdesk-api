@@ -1,13 +1,14 @@
 package com.helpdesk.helpdesk_api.controllers;
 
+import com.helpdesk.helpdesk_api.dtos.ChamadoRequest;
 import com.helpdesk.helpdesk_api.dtos.ChamadoResponse;
-import com.helpdesk.helpdesk_api.models.Chamado;
 import com.helpdesk.helpdesk_api.services.ChamadoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -18,15 +19,8 @@ public class ChamadoController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ROOT', 'ADMIN', 'GERENTE', 'SUPERVISOR', 'TECNICO')")
-    public ResponseEntity<ChamadoResponse> abrirChamado(@RequestBody @Valid Chamado chamado) {
-        ChamadoResponse novoChamado = chamadoService.abrirChamado(
-                chamado.getTitulo(),
-                chamado.getDescricao(),
-                chamado.getPrioridade(),
-                chamado.getTecnico().getId(),
-                chamado.getSolicitante().getId()
-        );
-        return ResponseEntity.status(201).body(novoChamado);
+    public ResponseEntity<ChamadoResponse> abrirChamado(@RequestBody @Valid ChamadoRequest dadosChamado) {
+        return ResponseEntity.status(201).body(chamadoService.abrirChamado(dadosChamado));
     }
 
     @GetMapping
@@ -43,8 +37,8 @@ public class ChamadoController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROOT', 'ADMIN', 'GERENTE', 'SUPERVISOR', 'TECNICO')")
-    public ResponseEntity<ChamadoResponse> atualizarChamado(@PathVariable Long id, @RequestBody Chamado dadosAtualizados, @RequestParam Long tecnicoId) {
-        return  ResponseEntity.ok(chamadoService.atualizarChamado(id, dadosAtualizados, tecnicoId));
+    public ResponseEntity<ChamadoResponse> atualizarChamado(@PathVariable Long id, @RequestBody ChamadoRequest dadosChamado) {
+        return  ResponseEntity.ok(chamadoService.atualizarChamado(id, dadosChamado));
     }
 
     @DeleteMapping("/{id}")

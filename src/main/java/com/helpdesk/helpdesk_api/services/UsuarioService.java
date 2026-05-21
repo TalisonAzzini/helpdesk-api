@@ -15,6 +15,20 @@ import java.util.List;
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
 
+    public List<UsuarioResponse> listarUsuarios() {
+        return usuarioRepository.findAll()
+                .stream()
+                .map(UsuarioResponse::from)
+                .toList();
+    }
+
+    public UsuarioResponse buscarUsuarioPorId(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado."));
+
+        return UsuarioResponse.from(usuario);
+    }
+
     public UsuarioResponse atualizarUsuario(Long id, Usuario dadosUsuario) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado."));
@@ -23,37 +37,9 @@ public class UsuarioService {
         usuario.setEmail(dadosUsuario.getEmail());
         usuario.setCargo(dadosUsuario.getCargo());
 
-        Usuario usuarioSalvo = usuarioRepository.save(usuario);
+        Usuario usuarioAtualizado = usuarioRepository.save(usuario);
 
-        return new UsuarioResponse(
-                usuarioSalvo.getId(),
-                usuarioSalvo.getNome(),
-                usuarioSalvo.getEmail(),
-                usuarioSalvo.getCargo()
-        );
-    }
-
-    public UsuarioResponse buscarUsuarioPorId(Long id) {
-        Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado."));
-
-        return new UsuarioResponse(
-                usuario.getId(),
-                usuario.getNome(),
-                usuario.getEmail(),
-                usuario.getCargo()
-        );
-    }
-
-    public List<UsuarioResponse> listarUsuarios() {
-        return usuarioRepository.findAll()
-                .stream()
-                .map(u -> new UsuarioResponse(
-                        u.getId(),
-                        u.getNome(),
-                        u.getEmail(),
-                        u.getCargo()))
-                .toList();
+        return UsuarioResponse.from(usuarioAtualizado);
     }
 
     public void deletarUsuario(Long id) {
