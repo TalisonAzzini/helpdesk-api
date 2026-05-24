@@ -11,7 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @RequiredArgsConstructor
@@ -42,11 +43,9 @@ public class ChamadoService {
         return ChamadoResponse.from(chamadoSalvo);
     }
 
-    public List<ChamadoResponse> listarChamados() {
-        return chamadoRepository.findAll()
-                .stream()
-                .map(ChamadoResponse::from)
-                .toList();
+    public Page<ChamadoResponse> listarChamados(Pageable pageable) {
+        return chamadoRepository.findAll(pageable)
+                .map(ChamadoResponse::from);
     }
 
     private Chamado buscarChamadoEntidade(Long id) {
