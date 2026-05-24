@@ -5,11 +5,11 @@ import com.helpdesk.helpdesk_api.dtos.ChamadoResponse;
 import com.helpdesk.helpdesk_api.services.ChamadoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,8 +25,8 @@ public class ChamadoController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ROOT', 'ADMIN', 'GERENTE', 'SUPERVISOR', 'TECNICO')")
-    public ResponseEntity<List<ChamadoResponse>> listarChamados() {
-        return ResponseEntity.ok(chamadoService.listarChamados());
+    public ResponseEntity<Page<ChamadoResponse>> listarChamados(Pageable pageable) {
+        return ResponseEntity.ok(chamadoService.listarChamados(pageable));
     }
 
     @GetMapping("/{id}")
