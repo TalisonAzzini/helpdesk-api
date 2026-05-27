@@ -5,21 +5,20 @@ import com.helpdesk.helpdesk_api.enums.Cargo;
 import com.helpdesk.helpdesk_api.models.Usuario;
 import com.helpdesk.helpdesk_api.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
 
-    public List<UsuarioResponse> listarUsuarios() {
-        return usuarioRepository.findAll()
-                .stream()
-                .map(UsuarioResponse::from)
-                .toList();
+    public Page<UsuarioResponse> listarUsuarios(Pageable pageable) {
+        return usuarioRepository.findAll(pageable)
+                .map(UsuarioResponse::from);
     }
 
     public UsuarioResponse buscarUsuarioPorId(Long id) {

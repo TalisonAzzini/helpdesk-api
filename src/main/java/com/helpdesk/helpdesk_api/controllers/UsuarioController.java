@@ -4,10 +4,12 @@ import com.helpdesk.helpdesk_api.dtos.UsuarioResponse;
 import com.helpdesk.helpdesk_api.models.Usuario;
 import com.helpdesk.helpdesk_api.services.UsuarioService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,8 +19,8 @@ public class UsuarioController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ROOT', 'ADMIN', 'GERENTE', 'SUPERVISOR')")
-    public ResponseEntity<List<UsuarioResponse>> listarUsuarios() {
-        return ResponseEntity.ok(usuarioService.listarUsuarios());
+    public ResponseEntity<Page<UsuarioResponse>> listarUsuarios(Pageable pageable) {
+        return ResponseEntity.ok(usuarioService.listarUsuarios(pageable));
     }
 
     @GetMapping("/{id}")
