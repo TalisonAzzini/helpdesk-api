@@ -2,6 +2,8 @@ package com.helpdesk.helpdesk_api.services;
 
 import com.helpdesk.helpdesk_api.dtos.ChamadoRequest;
 import com.helpdesk.helpdesk_api.dtos.ChamadoResponse;
+import com.helpdesk.helpdesk_api.dtos.UsuarioResponse;
+import com.helpdesk.helpdesk_api.enums.Prioridade;
 import com.helpdesk.helpdesk_api.models.*;
 import com.helpdesk.helpdesk_api.enums.Status;
 import com.helpdesk.helpdesk_api.repositories.ChamadoRepository;
@@ -43,8 +45,8 @@ public class ChamadoService {
         return ChamadoResponse.from(chamadoSalvo);
     }
 
-    public Page<ChamadoResponse> listarChamados(Pageable pageable) {
-        return chamadoRepository.findAll(pageable)
+    public Page<ChamadoResponse> listarChamados(Status status, Prioridade prioridade, Pageable pageable) {
+        return chamadoRepository.findByFiltros(status, prioridade, pageable)
                 .map(ChamadoResponse::from);
     }
 

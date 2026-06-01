@@ -2,6 +2,8 @@ package com.helpdesk.helpdesk_api.controllers;
 
 import com.helpdesk.helpdesk_api.dtos.ChamadoRequest;
 import com.helpdesk.helpdesk_api.dtos.ChamadoResponse;
+import com.helpdesk.helpdesk_api.enums.Prioridade;
+import com.helpdesk.helpdesk_api.enums.Status;
 import com.helpdesk.helpdesk_api.services.ChamadoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +27,8 @@ public class ChamadoController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ROOT', 'ADMIN', 'GERENTE', 'SUPERVISOR', 'TECNICO')")
-    public ResponseEntity<Page<ChamadoResponse>> listarChamados(Pageable pageable) {
-        return ResponseEntity.ok(chamadoService.listarChamados(pageable));
+    public ResponseEntity<Page<ChamadoResponse>> listarChamados(@RequestParam(required = false) Status status, @RequestParam(required = false) Prioridade prioridade, Pageable pageable) {
+        return ResponseEntity.ok(chamadoService.listarChamados(status, prioridade, pageable));
     }
 
     @GetMapping("/{id}")
