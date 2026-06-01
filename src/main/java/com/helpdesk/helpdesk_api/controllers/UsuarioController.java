@@ -1,6 +1,7 @@
 package com.helpdesk.helpdesk_api.controllers;
 
 import com.helpdesk.helpdesk_api.dtos.UsuarioResponse;
+import com.helpdesk.helpdesk_api.enums.Cargo;
 import com.helpdesk.helpdesk_api.models.Usuario;
 import com.helpdesk.helpdesk_api.services.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,8 @@ public class UsuarioController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ROOT', 'ADMIN', 'GERENTE', 'SUPERVISOR')")
-    public ResponseEntity<Page<UsuarioResponse>> listarUsuarios(Pageable pageable) {
-        return ResponseEntity.ok(usuarioService.listarUsuarios(pageable));
+    public ResponseEntity<Page<UsuarioResponse>> listarUsuarios(@RequestParam(required = false) Cargo cargo, Pageable pageable) {
+        return ResponseEntity.ok(usuarioService.listarUsuarios(cargo, pageable));
     }
 
     @GetMapping("/{id}")

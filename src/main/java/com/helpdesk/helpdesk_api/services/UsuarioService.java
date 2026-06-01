@@ -2,11 +2,14 @@ package com.helpdesk.helpdesk_api.services;
 
 import com.helpdesk.helpdesk_api.dtos.UsuarioResponse;
 import com.helpdesk.helpdesk_api.enums.Cargo;
+import com.helpdesk.helpdesk_api.enums.Prioridade;
+import com.helpdesk.helpdesk_api.enums.Status;
 import com.helpdesk.helpdesk_api.models.Usuario;
 import com.helpdesk.helpdesk_api.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -16,8 +19,8 @@ import org.springframework.stereotype.Service;
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
 
-    public Page<UsuarioResponse> listarUsuarios(Pageable pageable) {
-        return usuarioRepository.findAll(pageable)
+    public Page<UsuarioResponse> listarUsuarios(Cargo cargo, Pageable pageable) {
+        return usuarioRepository.findByFiltros(cargo, pageable)
                 .map(UsuarioResponse::from);
     }
 
