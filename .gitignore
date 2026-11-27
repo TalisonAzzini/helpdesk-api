@@ -34,3 +34,8 @@ build/
 pip
 
 application.properties
+# Python e configuração local
+__pycache__/
+.venv/
+.env
+analytics/output/
